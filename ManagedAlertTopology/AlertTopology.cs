@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.SCP;
 using Microsoft.SCP.Topology;
 using System.Configuration;
@@ -20,7 +14,7 @@ namespace ManagedAlertTopology
             TopologyBuilder topologyBuilder = new TopologyBuilder("AlertTopology");
 
             var eventHubPartitions = int.Parse(ConfigurationManager.AppSettings["EventHubPartitions"]);
-                
+
             topologyBuilder.SetEventHubSpout(
                 "EventHubSpout",
                 new EventHubSpoutConfig(
@@ -45,7 +39,7 @@ namespace ManagedAlertTopology
                     {Constants.DEFAULT_STREAM_ID, new List<string>(){ "temp", "createDate", "deviceId" } }
                 },
                 eventHubPartitions,
-                true
+                enableAck: true
                 ).
                 DeclareCustomizedJavaSerializer(javaSerializerInfo).
                 shuffleGrouping("EventHubSpout").
@@ -59,7 +53,7 @@ namespace ManagedAlertTopology
                     {Constants.DEFAULT_STREAM_ID, new List<string>(){ "reason", "temp", "createDate", "deviceId" } }
                 },
                 eventHubPartitions,
-                true
+                enableAck: true
                 ).
                 shuffleGrouping(typeof(ParserBolt).Name).
                 addConfigurations(boltConfig);
