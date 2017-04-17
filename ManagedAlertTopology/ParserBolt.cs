@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Threading;
 using Microsoft.SCP;
-using Microsoft.SCP.Rpc.Generated;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace ManagedAlertTopology
@@ -21,12 +14,16 @@ namespace ManagedAlertTopology
             this._context = ctx;
 
             // set input schemas
-            Dictionary<string, List<Type>> inputSchema = new Dictionary<string, List<Type>>();
-            inputSchema.Add(Constants.DEFAULT_STREAM_ID, new List<Type>() { typeof(string) });
+            Dictionary<string, List<Type>> inputSchema = new Dictionary<string, List<Type>>
+            {
+                {Constants.DEFAULT_STREAM_ID, new List<Type>() {typeof(string)}}
+            };
 
             // set output schemas
-            Dictionary<string, List<Type>> outputSchema = new Dictionary<string, List<Type>>();
-            outputSchema.Add(Constants.DEFAULT_STREAM_ID, new List<Type>() { typeof(double), typeof(string), typeof(string) });
+            Dictionary<string, List<Type>> outputSchema = new Dictionary<string, List<Type>>
+            {
+                {Constants.DEFAULT_STREAM_ID, new List<Type>() {typeof(double), typeof(string), typeof(string)}}
+            };
 
             // Declare input and output schemas
             _context.DeclareComponentSchema(new ComponentStreamSchema(inputSchema, outputSchema));

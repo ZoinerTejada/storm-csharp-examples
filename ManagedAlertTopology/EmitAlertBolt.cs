@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Threading;
 using Microsoft.SCP;
-using Microsoft.SCP.Rpc.Generated;
 
 namespace ManagedAlertTopology
 {
@@ -26,17 +20,23 @@ namespace ManagedAlertTopology
             try
             {
                 // set input schemas
-                Dictionary<string, List<Type>> inputSchema = new Dictionary<string, List<Type>>();
-                inputSchema.Add(Constants.DEFAULT_STREAM_ID, new List<Type>() { typeof(double), typeof(string), typeof(string) });
+                Dictionary<string, List<Type>> inputSchema = new Dictionary<string, List<Type>>
+                {
+                    {Constants.DEFAULT_STREAM_ID, new List<Type>() {typeof(double), typeof(string), typeof(string)}}
+                };
 
                 // set output schemas
-                Dictionary<string, List<Type>> outputSchema = new Dictionary<string, List<Type>>();
-                outputSchema.Add(Constants.DEFAULT_STREAM_ID, new List<Type>() { typeof(string), typeof(double), typeof(string), typeof(string) });
+                Dictionary<string, List<Type>> outputSchema = new Dictionary<string, List<Type>>
+                {
+                    {
+                        Constants.DEFAULT_STREAM_ID,
+                        new List<Type>() {typeof(string), typeof(double), typeof(string), typeof(string)}
+                    }
+                };
 
                 // Declare input and output schemas
                 _context.DeclareComponentSchema(new ComponentStreamSchema(inputSchema, outputSchema));
-
-
+                
                 _minAlertTemp = 65;
                 _maxAlertTemp = 68;
 
@@ -86,7 +86,6 @@ namespace ManagedAlertTopology
             {
                 Context.Logger.Error(ex.ToString());
             }
-            
         }
 
         public static EmitAlertBolt Get(Context ctx, Dictionary<string, Object> parms)
